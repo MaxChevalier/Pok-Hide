@@ -18,6 +18,9 @@ public class GameManager : MonoBehaviour
     private int rdm = 1;
 
     public bool ready = false;
+
+    public Image GamePanel;
+    public Image EndGame;
     void Awake()
     {
         if (instance == null)
@@ -33,6 +36,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        EndGame.gameObject.SetActive (false);
         ready = true;
         image = GameObject.Find("Poke_Image");
         ReStart();
@@ -88,7 +92,9 @@ public class GameManager : MonoBehaviour
     {
         if (round == 10)
         {
-            QuitGame();
+            EndGame.gameObject.SetActive (true);
+            GamePanel.gameObject.SetActive (false);
+            // QuitGame();
         }
         else
         {
