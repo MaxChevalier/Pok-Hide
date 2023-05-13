@@ -9,6 +9,7 @@ public class doForAll : MonoBehaviourPunCallbacks
     [PunRPC]
     public void SetWatingPanel(int timeToWait)
     {
+        GameManager.instance.timeToWait = timeToWait;
         GameManager.instance.SetWatingPanel(timeToWait);
     }
 

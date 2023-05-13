@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public GameObject endGame;
     public GameObject watingPanel;
     private bool isWating = true;
-    private int timeToWait = 0;
+    public int timeToWait = 0;
     public TextMeshProUGUI Timer;
     private int minplayer = 2;
     private int waitingTime = 10;
