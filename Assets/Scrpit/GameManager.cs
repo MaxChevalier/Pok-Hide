@@ -147,7 +147,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void ReStart()
     {
-        SetReady(false);
         endGame.SetActive(false);
         gamePanel.SetActive(true);
         watingPanel.SetActive(false);
