@@ -26,7 +26,6 @@ public class doForAll : MonoBehaviourPunCallbacks
 
     [PunRPC]
     public void ReStart(){
-        GameManager.instance.timeToWait = timeToWait;
         GameManager.instance.ReStart();
     }
 
@@ -34,5 +33,11 @@ public class doForAll : MonoBehaviourPunCallbacks
     public void SetGoodAnswer(int Id)
     {
         GameManager.instance.rdm = Id;
+    }
+
+    [PunRPC]
+    public void SetTimeToWait(int timeToWait)
+    {
+        GameManager.instance.timeToWait = timeToWait;
     }
 }

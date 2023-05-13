@@ -101,6 +101,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             gamePanel.SetActive(true);
             watingPanel.SetActive(false);
             PhotonNetwork.CurrentRoom.IsOpen = false;
+            photonView.RPC("SetTimeToWait", RpcTarget.All, timeToWait);
             photonView.RPC("ReStart", RpcTarget.All);
         }
 
