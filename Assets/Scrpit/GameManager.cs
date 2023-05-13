@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     private bool isWating = true;
     private int timeToWait = 0;
     public TextMeshProUGUI Timer;
-    private int minplayer = 1;
+    private int minplayer = 2;
     private int waitingTime = 10;
     private ExitGames.Client.Photon.Hashtable hash;
     void Awake()
@@ -205,7 +205,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         SetHash();
         SetReady(true);
         print("Score" + score);
-        ReStart();
+        StartCoroutine(WaitBeforeRestart());
     }
 
     private IEnumerator WaitBeforeRestart(){
