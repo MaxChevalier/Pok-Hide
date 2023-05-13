@@ -5,8 +5,9 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using SimpleJSON;
 using TMPro;
+using Photon.Pun;
 
-public class GetJson : MonoBehaviour
+public class GetJson : MonoBehaviourPunCallbacks
 {
     // Start is called before the first frame update
 
@@ -19,7 +20,7 @@ public class GetJson : MonoBehaviour
 
     }
 
-    public void newPokemon(int random)
+    public void  newPokemon(int random)
     {
 
         StartCoroutine(GetRequest("https://api-pokemon-fr.vercel.app/api/v1/pokemon/" + random));
@@ -35,14 +36,17 @@ public class GetJson : MonoBehaviour
             var N = JSON.Parse(webRequest.downloadHandler.text);
             string name = N["name"][0];
             string imageUrl = N["sprites"][0];
-            StartCoroutine(GetImage(imageUrl));
+            GameManager.instance.LoadImageForAll(imageUrl);
             GameManager.instance.StartGame(name);
         }
 
     }
 
-    IEnumerator GetImage(string imageUrl)
+    
+
+    public IEnumerator GetImage(string imageUrl)
     {
+        GameManager.instance.SetReady(false);
         UnityWebRequest request = UnityWebRequestTexture.GetTexture(imageUrl);
         yield return request.SendWebRequest();
         if (request.isNetworkError || request.isHttpError)
@@ -54,11 +58,27 @@ public class GetJson : MonoBehaviour
             Texture2D texture = DownloadHandlerTexture.GetContent(request) as Texture2D;
             GetComponent<Image>().sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0, 0));
             GameObject panel = GameObject.Find("GamePanel");
+            GameManager.instance.SetReady(true);
+            bool isReady = true;
+            do
+            {
+                yield return new WaitForSeconds(1);
+                isReady = true;
+                for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount && isReady; i++)
+                {
+                    if ((bool)PhotonNetwork.PlayerList[i].CustomProperties["ready"] == false)
+                    {
+                        isReady = false;
+                    }
+                }
+            }
+            while (!isReady);
             for (int i = 0; i < 4; i++)
             {
                 panel.transform.GetChild(i + 1).GetComponent<Button>().enabled = true;
                 panel.transform.GetChild(i + 1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().enabled = true;
             }
+            GameManager.instance.SetReady(false);
         }
     }
 }

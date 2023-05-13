@@ -39,7 +39,12 @@ public class HostAndJoinRoom : MonoBehaviourPunCallbacks
 
     public void QuickGame()
     {
-        if (!PhotonNetwork.JoinRandomRoom()) HostRoom(true);
+        PhotonNetwork.JoinRandomRoom();
+    }
+
+    public override void OnJoinRandomFailed(short returnCode, string message)
+    {
+        HostRoom(true);
     }
 
     public override void OnJoinedRoom()
