@@ -28,4 +28,10 @@ public class doForAll : MonoBehaviourPunCallbacks
     public void ReStart(){
         GameManager.instance.ReStart();
     }
+
+    [PunRPC]
+    public void SetGoodAnswer(int Id)
+    {
+        GameManager.instance.rdm = Id;
+    }
 }

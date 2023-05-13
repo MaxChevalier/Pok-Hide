@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private float time = 0;
 
-    private int rdm = 1;
+    public int rdm = 1;
     private bool ready = false;
 
     public GameObject gamePanel;
@@ -137,7 +137,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 photonView.RPC("SetName", RpcTarget.All, i + 1, name_);
             }
         }
-
+        photonView.RPC("SetGoodAnswer", RpcTarget.All, rdm);
     }
 
     public void SetName(int Id, string name)
