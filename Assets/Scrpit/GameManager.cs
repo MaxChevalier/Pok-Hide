@@ -311,13 +311,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         StartCoroutine(image.GetComponent<GetJson>().GetImage(imageUrl));
     }
-    // public void LoadImageForAll(string imageUrl)
-    // {
-    //     if (PhotonNetwork.LocalPlayer == PhotonNetwork.MasterClient)
-    //     {
-    //         photonView.RPC("LoadImage", RpcTarget.All, imageUrl);
-    //     }
-    // }
+    public void LoadImageForAll(string imageUrl)
+    {
+        if (PhotonNetwork.LocalPlayer == PhotonNetwork.MasterClient)
+        {
+            photonView.RPC("LoadImage", RpcTarget.All, imageUrl);
+        }
+    }
 
     private void SetHash()
     {

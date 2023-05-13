@@ -36,8 +36,8 @@ public class GetJson : MonoBehaviourPunCallbacks
             var N = JSON.Parse(webRequest.downloadHandler.text);
             string name = N["name"][0];
             string imageUrl = N["sprites"][0];
-            // GameManager.instance.LoadImageForAll(imageUrl);
-            GameManager.instance.LoadImage(imageUrl);
+            GameManager.instance.LoadImageForAll(imageUrl);
+            // GameManager.instance.LoadImage(imageUrl);
             GameManager.instance.StartGame(name);
         }
 
