@@ -147,6 +147,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void ReStart()
     {
+        SetReady(false);
         endGame.SetActive(false);
         gamePanel.SetActive(true);
         watingPanel.SetActive(false);
@@ -156,16 +157,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             endGame.SetActive(true);
             gamePanel.SetActive(false);
             watingPanel.SetActive(false);
-            List<Scoreboard> scores = new List<Scoreboard>();
-            for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
-            {
-                scores.Add(new Scoreboard(PhotonNetwork.PlayerList[i].NickName, (int)PhotonNetwork.PlayerList[i].CustomProperties["score"]));
-            }
-            scores.Sort(delegate (Scoreboard x, Scoreboard y)
-            {
-                return y.score.CompareTo(x.score);
-            });
-            endGame.GetComponent<ScorebordGame>().SetScorebord(scores);
+            StartCoroutine(ShowScore());
         }
         else
         {
@@ -183,6 +175,20 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         }
 
+    }
+
+    private IEnumerator ShowScore(){
+        yield return new WaitForSeconds(1);
+        List<Scoreboard> scores = new List<Scoreboard>();
+            for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
+            {
+                scores.Add(new Scoreboard(PhotonNetwork.PlayerList[i].NickName, (int)PhotonNetwork.PlayerList[i].CustomProperties["score"]));
+            }
+            scores.Sort(delegate (Scoreboard x, Scoreboard y)
+            {
+                return y.score.CompareTo(x.score);
+            });
+            endGame.GetComponent<ScorebordGame>().SetScorebord(scores);
     }
 
 
