@@ -59,6 +59,7 @@ public class GetJson : MonoBehaviourPunCallbacks
             GetComponent<Image>().sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0, 0));
             GameObject panel = GameObject.Find("GamePanel");
             GameManager.instance.SetReady(true);
+            GameManager.instance.timeToWait = 0;
             while (!GameManager.instance.AllPlayerReady()) yield return new WaitForSeconds(1);
             for (int i = 0; i < 4; i++)
             {
