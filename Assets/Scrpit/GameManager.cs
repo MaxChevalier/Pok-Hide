@@ -26,8 +26,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     private bool isWating = true;
     private int timeToWait = 0;
     public TextMeshProUGUI Timer;
-    private int minplayer = 2;
-    private int waitingTime = 30;
+    private int minplayer = 1;
+    private int waitingTime = 10;
     private ExitGames.Client.Photon.Hashtable hash;
     void Awake()
     {
@@ -58,7 +58,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         if (isWating)
         {
-            Debug.Log(PhotonNetwork.CurrentRoom.PlayerCount);
             if (PhotonNetwork.CurrentRoom.PlayerCount == minplayer)
             {
                 isWating = false;
@@ -76,12 +75,12 @@ public class GameManager : MonoBehaviourPunCallbacks
             else if (timeToWait == 0)
             {
                 time += Time.deltaTime;
-                if (time > 10)
+                if (time > 10 && round < 10)
                 {
                     score -= 350;
                     SetReady(true);
                     time = 0;
-                    StartCoroutine(ReStart());
+                    ReStart();
                 }
             }
         }
@@ -98,7 +97,6 @@ public class GameManager : MonoBehaviourPunCallbacks
                 yield return new WaitForSeconds(1);
                 timeToWait--;
             }
-
             endGame.SetActive(false);
             gamePanel.SetActive(true);
             watingPanel.SetActive(false);
@@ -145,22 +143,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         GameObject.Find("GamePanel").transform.GetChild(Id).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = name;
     }
 
-    public IEnumerator ReStart()
+    public void ReStart()
     {
-        bool isReady = true;
-        do
-        {
-            yield return new WaitForSeconds(1);
-            isReady = true;
-            for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount && isReady; i++)
-            {
-                if ((bool)PhotonNetwork.PlayerList[i].CustomProperties["ready"] == false)
-                {
-                    isReady = false;
-                }
-            }
-        }
-        while (!isReady);
         endGame.SetActive(false);
         gamePanel.SetActive(true);
         watingPanel.SetActive(false);
@@ -221,7 +205,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         SetHash();
         SetReady(true);
         print("Score" + score);
-        StartCoroutine(ReStart());
+        ReStart();
+    }
+
+    private IEnumerator WaitBeforeRestart(){
+        while (!AllPlayerReady()) yield return new WaitForSeconds(1);
+        ReStart();
     }
 
     public string ChangeName(string name, List<string> names)
@@ -334,5 +323,18 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         this.ready = ready;
         SetHash();
+    }
+
+    public bool AllPlayerReady()
+    {
+        bool isReady = true;
+        for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount && isReady; i++)
+        {
+            if ((bool)PhotonNetwork.PlayerList[i].CustomProperties["ready"] == false)
+            {
+                isReady = false;
+            }
+        }
+        return isReady;
     }
 }

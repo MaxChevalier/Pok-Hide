@@ -26,6 +26,6 @@ public class doForAll : MonoBehaviourPunCallbacks
 
     [PunRPC]
     public void ReStart(){
-        StartCoroutine(GameManager.instance.ReStart());
+        GameManager.instance.ReStart();
     }
 }

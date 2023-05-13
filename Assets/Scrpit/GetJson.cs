@@ -59,20 +59,7 @@ public class GetJson : MonoBehaviourPunCallbacks
             GetComponent<Image>().sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0, 0));
             GameObject panel = GameObject.Find("GamePanel");
             GameManager.instance.SetReady(true);
-            bool isReady = true;
-            do
-            {
-                yield return new WaitForSeconds(1);
-                isReady = true;
-                for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount && isReady; i++)
-                {
-                    if ((bool)PhotonNetwork.PlayerList[i].CustomProperties["ready"] == false)
-                    {
-                        isReady = false;
-                    }
-                }
-            }
-            while (!isReady);
+            while (!GameManager.instance.AllPlayerReady()) yield return new WaitForSeconds(1);
             for (int i = 0; i < 4; i++)
             {
                 panel.transform.GetChild(i + 1).GetComponent<Button>().enabled = true;
