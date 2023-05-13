@@ -74,8 +74,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
             else if (timeToWait == 0)
             {
-                timeToWait = -1;
-                if (PhotonNetwork.LocalPlayer == PhotonNetwork.MasterClient) PhotonNetwork.CurrentRoom.IsOpen = false;
                 time += Time.deltaTime;
                 if (time > 10 && round < 10)
                 {
@@ -102,6 +100,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             endGame.SetActive(false);
             gamePanel.SetActive(true);
             watingPanel.SetActive(false);
+            PhotonNetwork.CurrentRoom.IsOpen = false;
             photonView.RPC("ReStart", RpcTarget.All);
         }
 
