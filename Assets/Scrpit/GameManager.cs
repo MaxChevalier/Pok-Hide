@@ -74,6 +74,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
             else if (timeToWait == 0)
             {
+                timeToWait = -1;
+                if (PhotonNetwork.LocalPlayer == PhotonNetwork.MasterClient) PhotonNetwork.CurrentRoom.IsOpen = false;
                 time += Time.deltaTime;
                 if (time > 10 && round < 10)
                 {
@@ -203,7 +205,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             gamePanel.transform.GetChild(i + 1).GetComponent<Button>().enabled = false;
         }
         time = 0;
-        SetHash();
         SetReady(true);
         print("Score" + score);
         StartCoroutine(WaitBeforeRestart());
@@ -211,7 +212,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private IEnumerator WaitBeforeRestart(){
         while (!AllPlayerReady()) yield return new WaitForSeconds(1);
-        photonView.RPC("ReStart", RpcTarget.All);
+        ReStart();
     }
 
     public string ChangeName(string name, List<string> names)
