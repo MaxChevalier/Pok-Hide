@@ -148,6 +148,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         endGame.SetActive(false);
         gamePanel.SetActive(true);
         watingPanel.SetActive(false);
+        round = (int)PhotonNetwork.MasterClient.CustomProperties["round"];
         if (round == 10)
         {
             endGame.SetActive(true);
