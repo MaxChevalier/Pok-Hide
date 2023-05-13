@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private int round = 0;
 
-    private float time = 0;
+    public float time = 0;
 
     public int rdm = 1;
     private bool ready = false;
@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             gamePanel.SetActive(true);
             watingPanel.SetActive(false);
             PhotonNetwork.CurrentRoom.IsOpen = false;
-            photonView.RPC("SetTimeToWait", RpcTarget.All, timeToWait);
+            photonView.RPC("SetTimeToWait", RpcTarget.All, 0);
             photonView.RPC("ReStart", RpcTarget.All);
         }
 

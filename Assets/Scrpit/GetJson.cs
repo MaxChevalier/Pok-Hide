@@ -65,6 +65,7 @@ public class GetJson : MonoBehaviourPunCallbacks
                 panel.transform.GetChild(i + 1).GetComponent<Button>().enabled = true;
                 panel.transform.GetChild(i + 1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().enabled = true;
             }
+            GameManager.instance.time = 0f;
             GameManager.instance.SetReady(false);
         }
     }
