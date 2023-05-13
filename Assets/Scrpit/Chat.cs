@@ -12,7 +12,8 @@ public class Chat : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        
+        string message = PhotonNetwork.NickName + "Joined the game";
+        photonView.RPC("SendMessage", RpcTarget.All, message);
     }
 
     void Update()
@@ -25,8 +26,9 @@ public class Chat : MonoBehaviourPunCallbacks
     }
 
     public void SendMessage(){
-        string message = ChatInput.GetComponent<TMPro.TMP_InputField>().text;
+        string message = PhotonNetwork.NickName + " : " + ChatInput.GetComponent<TMPro.TMP_InputField>().text;
         photonView.RPC("SendMessage", RpcTarget.All, message);
+        ChatInput.GetComponent<TMPro.TMP_InputField>().text = "";
     }
 
 }
