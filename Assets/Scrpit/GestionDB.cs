@@ -56,11 +56,11 @@ public class GestionDB : MonoBehaviour
     public void newPokemonInDB(string name)
     {
 
-        StartCoroutine(GetRequest("https://api-pokemon-fr.vercel.app/api/v1/pokemon/" + name));
+        StartCoroutine(GetRequestPokemonPc("https://api-pokemon-fr.vercel.app/api/v1/pokemon/" + name));
     }
 
 
-    public IEnumerator GetRequest(string uri)
+    public IEnumerator GetRequestPokemonPc(string uri)
     {
         using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
         {
