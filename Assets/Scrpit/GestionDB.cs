@@ -72,8 +72,8 @@ public class GestionDB : MonoBehaviour
             string name = N["name"][0];
             string category = N["category"][0];
             string imageUrl = N["sprites"][0];
-            string type1 = N["type1"][0];
-            string type2 = N["type2"][0];
+            string type1 = N["type"][0][1];
+            string type2 = N["type"][1][1];
 
             addPokemon(pokedexId, generation, name, category, imageUrl, type1, type2);
         }
