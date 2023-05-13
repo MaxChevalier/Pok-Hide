@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public GameObject image;
     private int score = 0;
 
-    private int round = 0;
+    public int round = 0;
 
     public float time = 0;
 
@@ -156,6 +156,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             endGame.SetActive(true);
             gamePanel.SetActive(false);
             watingPanel.SetActive(false);
+            photonView.RPC("SetRound", RpcTarget.All, 10);
             StartCoroutine(ShowScore());
         }
         else

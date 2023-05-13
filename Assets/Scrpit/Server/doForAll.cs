@@ -40,4 +40,10 @@ public class doForAll : MonoBehaviourPunCallbacks
     {
         GameManager.instance.timeToWait = timeToWait;
     }
+
+    [PunRPC]
+    public void SetRound(int nbt)
+    {
+        GameManager.instance.round = nbt;
+    }
 }
