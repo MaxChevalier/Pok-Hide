@@ -211,7 +211,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private IEnumerator WaitBeforeRestart(){
         while (!AllPlayerReady()) yield return new WaitForSeconds(1);
-        ReStart();
+        photonView.RPC("ReStart", RpcTarget.All);
     }
 
     public string ChangeName(string name, List<string> names)
