@@ -14,4 +14,8 @@ public class Home : MonoBehaviourPunCallbacks
         PhotonNetwork.NickName = nameInput.text;
         SceneManager.LoadScene("Host&Play");
     }
+    public void PC()
+    {
+        SceneManager.LoadScene("PC");
+    }
 }
