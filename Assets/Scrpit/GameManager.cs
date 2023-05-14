@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     private bool isWating = true;
     public int timeToWait = 0;
     public TextMeshProUGUI Timer;
-    private int minplayer = 2;
+    private int minplayer = 1;
     private int waitingTime = 10;
     private ExitGames.Client.Photon.Hashtable hash;
     void Awake()
