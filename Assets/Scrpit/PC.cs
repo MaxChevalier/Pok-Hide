@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using SimpleJSON;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 public class PC : MonoBehaviour
 {
@@ -62,5 +63,10 @@ public class PC : MonoBehaviour
             Texture2D texture = DownloadHandlerTexture.GetContent(request) as Texture2D;
             newCard.transform.GetChild(0).GetComponent<Image>().sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0, 0));
         }
+    }
+
+    public void LeavePC()
+    {
+        SceneManager.LoadScene("Home");
     }
 }

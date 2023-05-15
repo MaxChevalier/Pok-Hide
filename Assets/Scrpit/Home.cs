@@ -8,6 +8,11 @@ using TMPro;
 public class Home : MonoBehaviourPunCallbacks
 {
     [SerializeField] private TMP_InputField nameInput;
+
+    void Start()
+    {
+        nameInput.text = PhotonNetwork.NickName;
+    }
     public void Play()
     {
         if (nameInput.text == "") return;
