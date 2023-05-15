@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -27,30 +28,26 @@ public class GameManager : MonoBehaviourPunCallbacks
     public int timeToWait = 0;
     public TextMeshProUGUI Timer;
     private int minplayer = 2;
-    private int waitingTime = 10;
+    private int waitingTime = 30;
     private ExitGames.Client.Photon.Hashtable hash;
+    public Chat chat;
+    public bool isTime = false;
+    public GameObject cache;
     void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
+        instance = this;
     }
     // Start is called before the first frame update
     void Start()
     {
+        chat = GetComponent<Chat>();
         endGame.SetActive(false);
         gamePanel.SetActive(false);
         watingPanel.SetActive(true);
         // ReStart();
         hash = new ExitGames.Client.Photon.Hashtable() { { "score", score }, { "round", round }, { "ready", ready } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+        GameObject.Find("Code").GetComponent<TextMeshProUGUI>().text = "Code : " + PhotonNetwork.CurrentRoom.Name;
     }
 
     // Update is called once per frame
@@ -72,7 +69,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 Timer.text = "";
                 isWating = true;
             }
-            else if (timeToWait == 0)
+            else if (timeToWait == 0 && isTime)
             {
                 time += Time.deltaTime;
                 if (time > 10 && round < 10)
@@ -80,7 +77,8 @@ public class GameManager : MonoBehaviourPunCallbacks
                     score -= 350;
                     SetReady(true);
                     time = 0;
-                    ReStart();
+                    isTime = false;
+                    StartCoroutine(WaitBeforeRestart());
                 }
             }
         }
@@ -150,6 +148,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         endGame.SetActive(false);
         gamePanel.SetActive(true);
         watingPanel.SetActive(false);
+        cache.SetActive(true);
         round = (int)PhotonNetwork.MasterClient.CustomProperties["round"];
         if (round == 10)
         {
@@ -158,6 +157,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             watingPanel.SetActive(false);
             photonView.RPC("SetRound", RpcTarget.All, 10);
             StartCoroutine(ShowScore());
+            int random = Random.Range(1, 1010);
+            GetComponent<GestionDB>().newPokemonInDB(random);
         }
         else
         {
@@ -170,8 +171,9 @@ public class GameManager : MonoBehaviourPunCallbacks
             {
                 int random = Random.Range(1, 1010);
                 image.GetComponent<GetJson>().newPokemon(random);
+                round++;
+                SetHash();
             }
-            round++;
 
         }
 
@@ -179,6 +181,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private IEnumerator ShowScore(){
         yield return new WaitForSeconds(1);
+        endGame.SetActive(true);
+        gamePanel.SetActive(false);
+        watingPanel.SetActive(false);
         List<Scoreboard> scores = new List<Scoreboard>();
             for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
             {
@@ -210,6 +215,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             gamePanel.transform.GetChild(i + 1).GetComponent<Button>().enabled = false;
         }
+        isTime = false;
         time = 0;
         SetReady(true);
         print("Score" + score);
@@ -344,5 +350,26 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
         }
         return isReady;
+    }
+
+    public void leave()
+    {
+        PhotonNetwork.LeaveRoom();
+        PhotonNetwork.JoinLobby();
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        SceneManager.LoadScene("Menu");
+    }
+
+    public override void OnConnectedToMaster()
+    {
+        PhotonNetwork.JoinLobby();
+    }
+
+    public override void OnJoinedLobby()
+    {
+        SceneManager.LoadScene("Home");
     }
 }

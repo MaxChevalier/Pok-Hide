@@ -10,6 +10,8 @@ using Photon.Pun;
 public class GetJson : MonoBehaviourPunCallbacks
 {
     // Start is called before the first frame update
+    string name;
+    public static string URL = "https://api-pokemon-fr.vercel.app/api/v1/pokemon/";
 
     void Start()
     {
@@ -20,30 +22,33 @@ public class GetJson : MonoBehaviourPunCallbacks
 
     }
 
-    public void  newPokemon(int random)
+    public void newPokemon(int random)
     {
 
-        StartCoroutine(GetRequest("https://api-pokemon-fr.vercel.app/api/v1/pokemon/" + random));
+        StartCoroutine(GetRequest(GetJson.URL + random, true));
     }
 
 
-    public IEnumerator GetRequest(string uri)
+    public IEnumerator GetRequest(string uri, bool img)
     {
         using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
         {
             yield return webRequest.SendWebRequest();
 
             var N = JSON.Parse(webRequest.downloadHandler.text);
-            string name = N["name"][0];
+            name = N["name"][0];
             string imageUrl = N["sprites"][0];
-            GameManager.instance.LoadImageForAll(imageUrl);
-            // GameManager.instance.LoadImage(imageUrl);
-            GameManager.instance.StartGame(name);
+            if (img)
+            {
+                GameManager.instance.LoadImageForAll(imageUrl);
+                // GameManager.instance.LoadImage(imageUrl);
+                GameManager.instance.StartGame(name);
+            }
         }
 
     }
 
-    
+
 
     public IEnumerator GetImage(string imageUrl)
     {
@@ -68,7 +73,11 @@ public class GetJson : MonoBehaviourPunCallbacks
                 panel.transform.GetChild(i + 1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().enabled = true;
             }
             GameManager.instance.time = 0f;
+            GameManager.instance.isTime = true;
             GameManager.instance.SetReady(false);
+            GameManager.instance.cache.SetActive(false);
         }
     }
+
+    
 }
