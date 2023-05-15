@@ -157,8 +157,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             watingPanel.SetActive(false);
             photonView.RPC("SetRound", RpcTarget.All, 10);
             StartCoroutine(ShowScore());
-            int random = Random.Range(1, 1010);
-            GetComponent<GestionDB>().newPokemonInDB(random);
         }
         else
         {
@@ -193,6 +191,14 @@ public class GameManager : MonoBehaviourPunCallbacks
             {
                 return y.score.CompareTo(x.score);
             });
+            for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount/2; i++)
+            {
+                if (PhotonNetwork.PlayerList[i].NickName == PhotonNetwork.LocalPlayer.NickName)
+                {
+                    int random = Random.Range(1, 1010);
+                    GetComponent<GestionDB>().newPokemonInDB(random);
+                }
+            }
             endGame.GetComponent<ScorebordGame>().SetScorebord(scores);
     }
 
