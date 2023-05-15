@@ -12,7 +12,7 @@ public class Chat : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        string message = PhotonNetwork.NickName + "Joined the game";
+        string message = PhotonNetwork.NickName + " joined the game";
         photonView.RPC("SendMessage", RpcTarget.All, message);
     }
 
