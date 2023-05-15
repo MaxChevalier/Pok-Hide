@@ -46,6 +46,7 @@ MonoBehaviour:
   - SetGoodAnswer
   - SetRound
   - SetTimeToWait
+  - SendMessage
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

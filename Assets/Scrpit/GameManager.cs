@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         // ReStart();
         hash = new ExitGames.Client.Photon.Hashtable() { { "score", score }, { "round", round }, { "ready", ready } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+        GameObject.Find("Code").GetComponent<TextMeshProUGUI>().text = "Code : " + PhotonNetwork.CurrentRoom.Name;
     }
 
     // Update is called once per frame
