@@ -176,6 +176,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private IEnumerator ShowScore(){
         yield return new WaitForSeconds(1);
+        endGame.SetActive(true);
+        gamePanel.SetActive(false);
+        watingPanel.SetActive(false);
         List<Scoreboard> scores = new List<Scoreboard>();
             for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
             {
