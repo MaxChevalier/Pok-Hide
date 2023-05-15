@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     private int minplayer = 2;
     private int waitingTime = 30;
     private ExitGames.Client.Photon.Hashtable hash;
+    public Chat chat;
     void Awake()
     {
         instance = this;
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        chat = GetComponent<Chat>();
         endGame.SetActive(false);
         gamePanel.SetActive(false);
         watingPanel.SetActive(true);

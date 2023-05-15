@@ -46,4 +46,10 @@ public class doForAll : MonoBehaviourPunCallbacks
     {
         GameManager.instance.round = nbt;
     }
+
+    [PunRPC]
+    public void SendMessage(string message)
+    {
+        GameManager.instance.chat.ResaveMessage(message);
+    }
 }
