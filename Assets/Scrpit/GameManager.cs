@@ -358,11 +358,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinLobby();
     }
 
-    public override void OnPlayerLeftRoom(Player otherPlayer)
-    {
-        SceneManager.LoadScene("Menu");
-    }
-
     public override void OnConnectedToMaster()
     {
         PhotonNetwork.JoinLobby();
