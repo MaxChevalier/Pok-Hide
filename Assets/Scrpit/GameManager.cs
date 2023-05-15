@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     private int waitingTime = 30;
     private ExitGames.Client.Photon.Hashtable hash;
     public Chat chat;
+    public bool isTime = false;
     void Awake()
     {
         instance = this;
@@ -67,7 +68,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 Timer.text = "";
                 isWating = true;
             }
-            else if (timeToWait == 0)
+            else if (timeToWait == 0 && isTime)
             {
                 time += Time.deltaTime;
                 if (time > 10 && round < 10)
@@ -75,6 +76,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                     score -= 350;
                     SetReady(true);
                     time = 0;
+                    isTime = false;
                     ReStart();
                 }
             }
@@ -167,8 +169,9 @@ public class GameManager : MonoBehaviourPunCallbacks
             {
                 int random = Random.Range(1, 1010);
                 image.GetComponent<GetJson>().newPokemon(random);
+                round++;
+                SetHash();
             }
-            round++;
 
         }
 
@@ -210,6 +213,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             gamePanel.transform.GetChild(i + 1).GetComponent<Button>().enabled = false;
         }
+        isTime = false;
         time = 0;
         SetReady(true);
         print("Score" + score);
