@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     private ExitGames.Client.Photon.Hashtable hash;
     public Chat chat;
     public bool isTime = false;
+    public GameObject cache;
     void Awake()
     {
         instance = this;
@@ -77,7 +78,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                     SetReady(true);
                     time = 0;
                     isTime = false;
-                    ReStart();
+                    StartCoroutine(WaitBeforeRestart());
                 }
             }
         }
@@ -147,6 +148,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         endGame.SetActive(false);
         gamePanel.SetActive(true);
         watingPanel.SetActive(false);
+        cache.SetActive(true);
         round = (int)PhotonNetwork.MasterClient.CustomProperties["round"];
         if (round == 10)
         {

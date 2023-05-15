@@ -75,6 +75,7 @@ public class GetJson : MonoBehaviourPunCallbacks
             GameManager.instance.time = 0f;
             GameManager.instance.isTime = true;
             GameManager.instance.SetReady(false);
+            GameManager.instance.cache.SetActive(false);
         }
     }
 
