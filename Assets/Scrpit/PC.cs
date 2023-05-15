@@ -30,7 +30,6 @@ public class PC : MonoBehaviour
             newCard.transform.GetChild(4).GetChild(0).GetComponent<TextMeshProUGUI>().text = pokemon.category;
             for (int i = 0; i < images.Count; i++)
             {
-                Debug.Log(images[i].name);
                 if (pokemon.type1.ToLower() == images[i].name)
                 {
                     newCard.transform.GetChild(5).GetChild(0).GetComponent<Image>().sprite = images[i];
