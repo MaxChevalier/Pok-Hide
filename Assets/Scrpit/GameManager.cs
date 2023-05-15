@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -26,22 +27,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     private bool isWating = true;
     public int timeToWait = 0;
     public TextMeshProUGUI Timer;
-    private int minplayer = 1;
-    private int waitingTime = 10;
+    private int minplayer = 2;
+    private int waitingTime = 30;
     private ExitGames.Client.Photon.Hashtable hash;
     public Chat chat;
     void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
+        instance = this;
     }
     // Start is called before the first frame update
     void Start()
@@ -349,5 +341,26 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
         }
         return isReady;
+    }
+
+    public void leave()
+    {
+        PhotonNetwork.LeaveRoom();
+        PhotonNetwork.JoinLobby();
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        SceneManager.LoadScene("Menu");
+    }
+
+    public override void OnConnectedToMaster()
+    {
+        PhotonNetwork.JoinLobby();
+    }
+
+    public override void OnJoinedLobby()
+    {
+        SceneManager.LoadScene("Home");
     }
 }
