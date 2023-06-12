@@ -179,6 +179,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private IEnumerator ShowScore(){
         yield return new WaitForSeconds(1);
+        SetReady(true);
         endGame.SetActive(true);
         gamePanel.SetActive(false);
         watingPanel.SetActive(false);
