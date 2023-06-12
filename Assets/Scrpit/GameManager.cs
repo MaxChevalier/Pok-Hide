@@ -311,6 +311,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
+        SceneManager.LoadScene("Menu");
     }
 
     public void SetWatingPanel(int timeToWait)
