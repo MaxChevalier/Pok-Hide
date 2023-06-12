@@ -85,7 +85,6 @@ public class GestionDB : MonoBehaviour
 
     public void newPokemonInDB(int id)
     {
-        Debug.Log("newPokemonInDB " + name );
         StartCoroutine(GetRequestPokemonPc(GetJson.URL + id));
     }
 

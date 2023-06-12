@@ -122,7 +122,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         rdm = Random.Range(0, 4);
         string name = PokemonName;
         List<string> Names = new List<string>() { name };
-        Debug.Log(name);
         for (int i = 0; i < 4; i++)
         {
             if (i == rdm)

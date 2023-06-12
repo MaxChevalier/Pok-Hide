@@ -28,7 +28,6 @@ public class HostAndJoinRoom : MonoBehaviourPunCallbacks
             {
                 code += codeChars[Random.Range(0, codeChars.Length)];
             }
-            Debug.Log(code);
         } while (!PhotonNetwork.CreateRoom(code, roomOptions, TypedLobby.Default));
     }
 
